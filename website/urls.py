@@ -7,4 +7,5 @@ urlpatterns = [
     path('record/<record_id>', views.update_record, name='update_record'),
     path('delete_record/<record_id>', views.delete_record, name='delete_record'),
     path('generate_pdf', views.generate_pdf, name='generate_pdf'),
+    path('display_deleted_records', views.display_deleted_records, name="display_deleted_records"),
 ]

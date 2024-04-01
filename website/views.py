@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import CustomerRecords, CustomerDeletedRecords
-from .forms import AddRecordForm, DeletedRecordForm
+from .forms import AddRecordForm  #, DeletedRecordForm
 from django.contrib import messages
 
 
@@ -57,6 +57,9 @@ def add_record(request):
         return render(request, 'add_record.html', {'form':form})
 
 def update_record(request, record_id):
+    print('UPDATE  record_id--->>>>', record_id)
+    print('UPDATE record_id TYPE ------->>', type(record_id))
+    #print(MM)
     record = CustomerRecords.objects.get(id=record_id)
     form = AddRecordForm(request.POST or None, instance=record)
     if form.is_valid():
@@ -67,8 +70,26 @@ def update_record(request, record_id):
 
 def delete_record(request, record_id):
     record = CustomerRecords.objects.get(id=record_id)
+    #form = DeletedRecordForm(request.POST)
+    
+    CustomerDeletedRecords.objects.update_or_create(
+                first_name = record.first_name,
+                last_name = record.last_name,
+                email = record.email,
+                phone = record.phone,
+                address = record.address,
+                city = record.city,
+                state = record.state,
+                postcode = record.postcode,)
+    #if form.is_valid():
+    #    print('INSIDE THE VALID FUNCTION-----------')
+    #    form.save()
+    #    print('FORM HAS BEEN SAVED SUCCESSFULLY--------------------------------------')
+    
     record.delete()
     return redirect('home')
 
-
+def display_deleted_records(request):
+    records = CustomerDeletedRecords.objects.all()
+    return render(request, 'display_deleted_records.html', {'records':records})
 

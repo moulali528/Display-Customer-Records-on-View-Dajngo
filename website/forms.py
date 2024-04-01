@@ -31,8 +31,8 @@ class DeletedRecordForm(forms.ModelForm):
 		model = CustomerDeletedRecords
 		exclude = ("user",)
 
-	def clean(self):
-		cleaned_data = super().clean()  # Don't forget to call super().clean()
+	#def clean(self):
+    #		cleaned_data = super().clean()  # Don't forget to call super().clean()
         # Your custom cleaning logic
-		return cleaned_data
+	#	return cleaned_data
 		
